@@ -27,6 +27,7 @@ int main(int argc, char **argv) {
     struct hostent *server;
     char *hostname;
     char buf[BUFSIZE];
+    unsigned int bufsize = sizeof(buf);
 
     /* check command line arguments */
     if (argc != 3) {
@@ -59,17 +60,18 @@ int main(int argc, char **argv) {
     if (connect(sockfd, (struct sockaddr *)&serveraddr, sizeof(serveraddr)) < 0) 
       error("ERROR connecting");
 
+    memset(buf, '\0', bufsize);
     /* get message line from the user */
-    strncpy(buf, "Banane, lamponi, chi c'era con te!\n", BUFSIZE);
+    strncpy(buf, "Banane, lamponi, chi c'era con te!\n", bufsize);
 
     /* send the message line to the server */
-    n = write(sockfd, buf, strlen(buf));
+    n = write(sockfd, buf, bufsize);
     if (n < 0) 
       error("ERROR writing to socket");
 
     /* print the server's reply */
-    bzero(buf, BUFSIZE);
-    n = read(sockfd, buf, BUFSIZE);
+    bzero(buf, bufsize);
+    n = read(sockfd, buf, bufsize);
     if (n < 0) 
       error("ERROR reading from socket");
     printf("Echo from server: %s", buf);

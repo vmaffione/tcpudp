@@ -67,6 +67,7 @@ int main(int argc, char **argv) {
   char *hostaddrp; /* dotted decimal host addr string */
   int optval; /* flag value for setsockopt */
   int n; /* message byte size */
+  int bufsize = sizeof(buf);
 
   /* 
    * check command line arguments 
@@ -150,8 +151,8 @@ int main(int argc, char **argv) {
     /* 
      * read: read input string from the client
      */
-    bzero(buf, BUFSIZE);
-    n = read(childfd, buf, BUFSIZE);
+    bzero(buf, bufsize);
+    n = read(childfd, buf, bufsize);
     if (n < 0) 
       error("ERROR reading from socket");
     printf("server received %d bytes: %s\n", n, buf);
@@ -159,16 +160,16 @@ int main(int argc, char **argv) {
     /* 
      * write: echo the input string back to the client 
      */
-    n = write(childfd, buf, strlen(buf));
+    n = write(childfd, buf, n);
     if (n < 0) 
       error("ERROR writing to socket");
 #if 1
     printf("Second read\n");
-    n = read(childfd, buf, BUFSIZE);
+    n = read(childfd, buf, bufsize);
     if (n < 0) 
       error("ERROR reading from socket(second)");
     printf("Second read: %d bytes\n", n);
-    n = read(childfd, buf, BUFSIZE);
+    n = read(childfd, buf, bufsize);
     if (n < 0) 
       error("ERROR reading from socket(second)");
     printf("Third read: %d bytes\n", n);
