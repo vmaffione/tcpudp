@@ -1,5 +1,6 @@
 CC=gcc
 CFLAGS=-Wall -g
+LDFLAGS=-lpthread
 PROGRAMS=tcpclient tcpserver udpsend
 
 all: $(PROGRAMS)
