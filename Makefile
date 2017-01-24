@@ -1,11 +1,14 @@
 CC=gcc
 CFLAGS=-Wall -g
+PROGRAMS=tcpclient tcpserver udpsend
 
-all: tcpclient tcpserver
+all: $(PROGRAMS)
 
 tcpclient: tcpclient.o
 
 tcpserver: tcpserver.o
 
+udpsend: udpsend.o
+
 clean:
-	-rm tcpclient tcpserver
+	-rm $(PROGRAMS)
